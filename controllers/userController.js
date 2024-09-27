@@ -14,7 +14,7 @@ const getUsers = async (req, res) => {
 };
 
 // Create a new user
-const createUser = async(req, res) => {
+const register = async(req, res) => {
   try {
     const { email, password } = req.body;
     await db.query('INSERT INTO user (email, password) VALUES (?, ?)', [email, password]);
@@ -50,8 +50,11 @@ const login = async (req, res) => {
   }
 }
 
+
+
+
 module.exports = {
   getUsers,
-  createUser,
+  register,
   login
 };
