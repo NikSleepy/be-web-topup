@@ -2,11 +2,11 @@ const db = require('../config/db');
 
 const order = async (req, res) => {
   try {
-    const { uid, server, item, price, quantity, whatshapp, payment, user_id } =
-      req.body;
+    const { id } = req.user;
+    const { uid, server, item, price, quantity, whatshapp, payment } = req.body;
     await db.query(
       'INSERT INTO orders (uid, server, item, price, quantity, whatshapp, payment, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [uid, server, item, price, quantity, whatshapp, payment, user_id]
+      [uid, server, item, price, quantity, whatshapp, payment, id]
     );
     res.status(200).json({
       message: 'Order created successfully',
@@ -18,8 +18,10 @@ const order = async (req, res) => {
 
 const getOrderById = async (req, res) => {
   try {
-    const { id } = req.body;
-    const [result] = await db.query('SELECT * FROM orders WHERE user_id = ?', [id]);
+    const { id } = req.user;
+    const [result] = await db.query('SELECT * FROM orders WHERE user_id = ?', [
+      id,
+    ]);
     if (result.length === 0) {
       return res.status(404).json({ error: 'Order not found' });
     }
