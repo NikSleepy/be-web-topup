@@ -1,13 +1,14 @@
+const { redirect } = require('express/lib/response');
 const { verifyToken } = require('../helpers/token');
 
 const auth = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  // const authHeader = req.headers['authorization'];
+  // const token = authHeader && authHeader.split(' ')[1];
+  const token = req.cookies.token;
 
   if (!token) {
-    return res.status(401).json({
-      massage: 'unauthorized',
-    });
+    console.log('Token not found, redirecting to /login');
+    return  res.redirect('/login');
   }
 
   try {

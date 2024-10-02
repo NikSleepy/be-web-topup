@@ -21,13 +21,13 @@ const getUsers = async (req, res) => {
 // Create a new user
 const register = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, username } = req.body;
 
     const hashedPassword = await hashPassword(password);
-    await db.query('INSERT INTO user (email, password) VALUES (?, ?)', [
-      email,
-      hashedPassword,
-    ]);
+    await db.query(
+      'INSERT INTO user (email, password, username) VALUES (?, ?, ?)',
+      [email, hashedPassword, username]
+    );
     res.status(200).json({
       message: 'User created successfully',
     });
@@ -55,11 +55,29 @@ const login = async (req, res) => {
 
     const token = generateTokens({ id: result[0].id, email: result[0].email });
 
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: 'production',
+      sameSite: 'lax',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
     res.status(200).json({
       message: 'Login successful',
-      data: result[0],
-      token: token,
     });
+  } catch (error) {
+    res.status(500).json({ message: 'Database query failed', error: error });
+  }
+};
+
+const logout = async (req, res) => {
+  try {
+    await res.clearCookie('token', {
+      httpOnly: true,
+      secure: 'production',
+    });
+
+    return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
     res.status(500).json({ message: 'Database query failed', error: error });
   }
