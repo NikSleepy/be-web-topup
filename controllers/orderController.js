@@ -1,5 +1,6 @@
 const db = require('../config/db');
 
+// post order
 const order = async (req, res) => {
   try {
     const { id } = req.user;
@@ -16,6 +17,7 @@ const order = async (req, res) => {
   }
 };
 
+//get order by id
 const getOrderById = async (req, res) => {
   try {
     const { id } = req.user;

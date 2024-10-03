@@ -36,6 +36,7 @@ const register = async (req, res) => {
   }
 };
 
+// login 
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -70,6 +71,7 @@ const login = async (req, res) => {
   }
 };
 
+// logout or distroy the token
 const logout = async (req, res) => {
   try {
     await res.clearCookie('token', {
@@ -87,4 +89,5 @@ module.exports = {
   getUsers,
   register,
   login,
+  logout,
 };
