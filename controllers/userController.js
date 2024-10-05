@@ -36,7 +36,7 @@ const register = async (req, res) => {
   }
 };
 
-// login 
+// login
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -71,6 +71,27 @@ const login = async (req, res) => {
   }
 };
 
+const verifyToken = (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    if (!token) {
+      res.status(403).json({
+        massage: 'token not valid',
+      });
+    }
+
+    res.status(200).json({
+      message: 'Token is valid',
+      // token: token,
+    });
+  } catch (error) {
+    return res.status(403).json({
+      massage: 'Token is not valid',
+    });
+  }
+};
+
 // logout or distroy the token
 const logout = async (req, res) => {
   try {
@@ -90,4 +111,5 @@ module.exports = {
   register,
   login,
   logout,
+  verifyToken,
 };

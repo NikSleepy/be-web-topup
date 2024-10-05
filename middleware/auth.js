@@ -7,8 +7,7 @@ const auth = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
-    console.log('Token not found, redirecting to /login');
-    return  res.redirect('/login');
+    return res.redirect('/login');
   }
 
   try {
