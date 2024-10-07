@@ -13,7 +13,7 @@ const order = async (req, res) => {
       message: 'Order created successfully',
     });
   } catch (error) {
-    res.status(500).json({ error: 'server error' });
+    res.status(500).json({ massage: 'server error', error: error });  
   }
 };
 
