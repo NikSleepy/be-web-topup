@@ -4,10 +4,10 @@ const db = require('../config/db');
 const order = async (req, res) => {
   try {
     const { id } = req.user;
-    const { uid, server, item, price, quantity, whatshapp, payment } = req.body;
+    const { uid, server, item, price, quantity, whatshapp, payment, name } = req.body;
     await db.query(
-      'INSERT INTO orders (uid, server, item, price, quantity, whatshapp, payment, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [uid, server, item, price, quantity, whatshapp, payment, id]
+      'INSERT INTO orders (uid, server, name, item, price, quantity, whatshapp, payment, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [uid, server, name, item, price, quantity, whatshapp, payment, id]
     );
     res.status(200).json({
       message: 'Order created successfully',
